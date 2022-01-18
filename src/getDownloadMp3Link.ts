@@ -1,5 +1,5 @@
 import { Page } from "puppeteer";
-import { delay, downloadPath } from "./utils";
+import { delay, DOWNLOAD_PATH } from "./utils";
 
 const DELAY = 1000;
 const MP3_TAB_FULL_X_PATH = '/html/body/div[1]/div/div/div/div[1]/div/div[1]/div/div[4]/div/div[2]/ul/li[2]/a'
@@ -19,7 +19,7 @@ export const getDownloadMp3Link = async ({ url, page }: IGetDownloadMp3LinkParam
   // @ts-ignore
   await page._client.send('Page.setDownloadBehavior', {
     behavior: 'allow',
-    downloadPath
+    downloadPath: DOWNLOAD_PATH
   });
 
   await delay(DELAY);

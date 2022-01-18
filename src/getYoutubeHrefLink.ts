@@ -1,10 +1,10 @@
 import { Page } from "puppeteer";
 import { delay } from "./utils";
-import { IMusic } from "./fetchSpotify";
+import { ISpotifyMusic } from "spotify/config";
 
 interface IGetYoutubeHrefLinkParams {
   page: Page;
-  music: IMusic;
+  music: ISpotifyMusic;
 }
 
 const DELAY = 1000;

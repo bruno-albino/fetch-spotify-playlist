@@ -1,7 +1,7 @@
 import axios from "axios";
 import path from "path";
 import fs from "fs";
-import { downloadPath } from "./utils";
+import { DOWNLOAD_PATH } from "./utils";
 
 export interface IDownloadParams {
   url: string;
@@ -15,7 +15,7 @@ export const download = async ({ fileName, url }: IDownloadParams): Promise<void
     responseType: 'stream'
   })
 
-  const writer = fs.createWriteStream(path.join(downloadPath, fileName));
+  const writer = fs.createWriteStream(path.join(DOWNLOAD_PATH, fileName));
 
   return new Promise((resolve, reject) => {
     res.data.pipe(writer);
