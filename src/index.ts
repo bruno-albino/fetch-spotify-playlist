@@ -4,8 +4,16 @@ import { getYoutubeHrefLink } from './getYoutubeHrefLink';
 import { download, IDownloadParams } from './download';
 import { getSongsByPlaylist } from 'spotify/getSongsByPlaylist';
 
+// 'https://open.spotify.com/playlist/5TA1QRUel3bMLgP5veRIMt'
 (async () => {
-  const musics = await getSongsByPlaylist('https://open.spotify.com/playlist/5TA1QRUel3bMLgP5veRIMt')
+  const args = process.argv
+  if (args.length < 3) {
+    console.log('Usage: yarn dev <playlistId>')
+    process.exit(1)
+  }
+  const playlistId = args[2]
+
+  const musics = await getSongsByPlaylist(playlistId)
 
   // const browser = await puppeteer.launch();
   // const page = await browser.newPage();
