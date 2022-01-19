@@ -1,15 +1,9 @@
 import { AxiosResponse } from 'axios';
+import { SPOTIFY_REDIRECT_URI, PORT } from '../constants';
 import express from 'express'
 import { Server } from 'http'
-import { spotifyAccountsApi, SPOTIFY_REDIRECT_URI, SPOTIFY_STATE_KEY } from './config';
-
-interface ISpotifyTokenResponse {
-  access_token: string;
-  refresh_token: string;
-  expires_in: number;
-  scope: string;
-  token_type: string;
-}
+import { spotifyAccountsApi, SPOTIFY_STATE_KEY } from './config';
+import { ISpotifyTokenResponse } from './interfaces';
 
 export const getAuthorization = (app: express.Application, callback: (server: Server) => void): Promise<ISpotifyTokenResponse> => {
   return new Promise((resolve, reject) => {
@@ -35,7 +29,7 @@ export const getAuthorization = (app: express.Application, callback: (server: Se
       resolve(response.data)
       res.redirect('finish')
     });
-    const server = app.listen(8888)
+    const server = app.listen(PORT)
     callback(server)
   })
 }

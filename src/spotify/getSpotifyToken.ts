@@ -5,6 +5,7 @@ import { Server } from 'http'
 import open from 'open'
 import { setupRoutes } from './setupRoutes'
 import { getAuthorization } from './getAuthorization'
+import { API_ENDPOINT } from '../constants'
 
 const app = express();
 app.use(cors());
@@ -14,7 +15,7 @@ setupRoutes(app)
 
 export const getSpotifyToken = async (): Promise<string> => {
   console.log('Log in your Spotify account in the opened browser')
-  open('http://localhost:8888')
+  open(API_ENDPOINT) 
   const result = await getAuthorization(app, result => {
     server = result
   })

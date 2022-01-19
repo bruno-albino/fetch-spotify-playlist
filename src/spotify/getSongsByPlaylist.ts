@@ -1,6 +1,6 @@
-import { ISpotifyMusic, spotifyApi } from "./config"
+import { spotifyApi } from "./config"
 import { getSpotifyToken } from "./getSpotifyToken"
-import { IPlaylistResponse } from "./interfaces";
+import { IPlaylistResponse, ISpotifyMusic } from "./interfaces";
 
 const LIMIT = 100;
 let offset = 0;
