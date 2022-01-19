@@ -5,7 +5,7 @@ import { download, IDownloadParams } from './download';
 import { getSongsByPlaylist } from 'spotify/getSongsByPlaylist';
 
 (async () => {
-  const musics = await getSongsByPlaylist('5TA1QRUel3bMLgP5veRIMt')
+  const musics = await getSongsByPlaylist('https://open.spotify.com/playlist/5TA1QRUel3bMLgP5veRIMt')
 
   // const browser = await puppeteer.launch();
   // const page = await browser.newPage();

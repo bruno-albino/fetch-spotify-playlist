@@ -5,7 +5,8 @@ import { IPlaylistResponse, ISpotifyMusic } from "./interfaces";
 const LIMIT = 100;
 let offset = 0;
 
-export const getSongsByPlaylist = async (playlistId: string): Promise<ISpotifyMusic[]> => {
+export const getSongsByPlaylist = async (fullPlaylistId: string): Promise<ISpotifyMusic[]> => {
+  const playlistId = fullPlaylistId.includes('open.spotify.com') ? fullPlaylistId.split('/').pop() : fullPlaylistId;
   const token = await getSpotifyToken()
 
   console.log('Getting songs from playlist...')
