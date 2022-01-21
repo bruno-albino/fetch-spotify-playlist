@@ -1,4 +1,6 @@
 import { config } from 'dotenv-safe'
+import path from 'path'
+
 config()
 
 const getEnvVar = (name: string): string => {
@@ -15,3 +17,5 @@ export const SPOTIFY_REDIRECT_URI = getEnvVar('SPOTIFY_REDIRECT_URI')
 export const PORT = getEnvVar('PORT')
 export const API_ENDPOINT = getEnvVar('API_ENDPOINT')
 export const YOUTUBE_API_KEY = getEnvVar('YOUTUBE_API_KEY')
+
+export const DOWNLOAD_PATH = path.resolve('./src/download');

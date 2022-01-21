@@ -5,7 +5,7 @@ import { Server } from 'http'
 import open from 'open'
 import { setupRoutes } from './setupRoutes'
 import { getAuthorization } from './getAuthorization'
-import { API_ENDPOINT } from '../constants'
+import { API_ENDPOINT } from '../utils/constants'
 
 const app = express();
 app.use(cors());

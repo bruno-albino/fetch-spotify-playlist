@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { SPOTIFY_REDIRECT_URI, PORT } from '../constants';
+import { SPOTIFY_REDIRECT_URI, PORT } from '../utils/constants';
 import express from 'express'
 import { Server } from 'http'
 import { spotifyAccountsApi, SPOTIFY_STATE_KEY } from './config';

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { YOUTUBE_API_KEY } from "../constants"
+import { YOUTUBE_API_KEY } from "../utils/constants"
 
 const init = async () => {
   try {

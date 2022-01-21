@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from "../constants";
+import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from "../utils/constants";
 
 export const SPOTIFY_STATE_KEY = 'spotify_auth_state';
 export const SPOTIFY_ACCESS_SCOPE = 'user-read-private user-read-email';

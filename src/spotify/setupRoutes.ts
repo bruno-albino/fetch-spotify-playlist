@@ -1,6 +1,6 @@
 import express from 'express'
-import { SPOTIFY_CLIENT_ID, SPOTIFY_REDIRECT_URI } from '../constants';
-import { generateRandomString } from '../utils';
+import { generateRandomString } from 'utils/helpers';
+import { SPOTIFY_CLIENT_ID, SPOTIFY_REDIRECT_URI } from '../utils/constants';
 import { SPOTIFY_ACCESS_SCOPE, SPOTIFY_ACCOUNT_END_POINT, SPOTIFY_STATE_KEY } from './config';
 
 export const setupRoutes = (app: express.Application) => {
