@@ -5,16 +5,32 @@ import { getSongsByPlaylist } from 'spotify/getSongsByPlaylist';
 import { YoutubeAPI } from './youtube';
 import { YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, YOUTUBE_REDIRECT_URI } from 'utils/constants';
 import { hasSongBeenDownloaded, writeSongInJsonFile } from 'utils/helpers';
+import { getSongsByAlbum } from 'spotify/getSongsByAlbum';
+import { ISpotifyMusic } from 'spotify/interfaces';
 
 // 'https://open.spotify.com/playlist/5TA1QRUel3bMLgP5veRIMt'
+
+const playlistkey = '-playlist';
+const albumkey = '-album';
 
 (async () => {
   const args = process.argv
   if (args.length < 3) {
-    console.log('Usage: yarn dev <playlistId>')
+    console.log(`Usage: yarn dev ${playlistkey} <playlistId> or ${albumkey} <albumId>`)
     process.exit(1)
   }
-  const playlistId = args[2]
+  const key = args[2]
+  if ([playlistkey, albumkey].indexOf(key) === -1) {
+    console.log(`Usage: yarn dev ${playlistkey} <playlistId> or ${albumkey} <albumId>`)
+    process.exit(1)
+  }
+  const value = args[3]
+  let musics: ISpotifyMusic[] = [];
+  if (key === playlistkey) {
+    musics = await getSongsByPlaylist(value)
+  } else {
+    musics = await getSongsByAlbum(value)
+  }
 
   const youtubeApi = new YoutubeAPI({
     clientId: YOUTUBE_CLIENT_ID,
@@ -28,10 +44,7 @@ import { hasSongBeenDownloaded, writeSongInJsonFile } from 'utils/helpers';
     height: 920
   });
 
-  const musics = await getSongsByPlaylist(playlistId)
   const filteredMusics = musics.filter(song => !hasSongBeenDownloaded(song))
-
-  const downloadableLinks: Promise<void>[] = []
 
   for (let i = 0; i < filteredMusics.length; i++) {
     const music = filteredMusics[i];
@@ -49,7 +62,6 @@ import { hasSongBeenDownloaded, writeSongInJsonFile } from 'utils/helpers';
     writeSongInJsonFile(music)
   }
 
-  await Promise.all(downloadableLinks);
   await browser.close();
   console.log('done')
   process.exit(0);

@@ -15,6 +15,21 @@ export interface IPlaylistResponse {
   total: number;
 }
 
+export interface IAlbumResponse {
+  href: string;
+  items: {
+    name: string;
+    artists: {
+      name: string;
+    }[]
+  }[],
+  limit: number;
+  next: string;
+  offset: number;
+  previous: string;
+  total: number;
+}
+
 export interface ISpotifyMusic {
   artist: string;
   title: string;
