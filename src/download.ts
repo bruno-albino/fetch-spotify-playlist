@@ -1,7 +1,7 @@
 import axios from "axios";
 import path from "path";
 import fs from "fs";
-import { DOWNLOAD_PATH } from "./utils";
+import { DOWNLOAD_PATH } from "utils/constants";
 
 export interface IDownloadParams {
   url: string;

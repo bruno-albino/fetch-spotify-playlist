@@ -1,5 +1,6 @@
+import fs from 'fs'
 import { ISpotifyMusic } from 'spotify/interfaces';
-import musicsDownloaded from './songs-downloaded.json'
+import { SONGS_JSON_PATH } from './constants';
 
 /**
  * Delay execution of a function
@@ -24,7 +25,14 @@ export const generateRandomString = (length: number): string => {
 };
  
 export const hasSongBeenDownloaded = (song: ISpotifyMusic): boolean => {
-  const musics = JSON.parse(JSON.stringify(musicsDownloaded)) as ISpotifyMusic[];
-
+  const file = fs.readFileSync(SONGS_JSON_PATH, 'utf8');
+  const musics = JSON.parse(file) as ISpotifyMusic[];
   return musics.some(music => music.title.toLowerCase() === song.title.toLowerCase() && music.artist.toLowerCase() === song.artist.toLowerCase());
+}
+
+export const writeSongInJsonFile = (song: ISpotifyMusic) => {
+  const file = fs.readFileSync(SONGS_JSON_PATH, 'utf8');
+  const musics = JSON.parse(file) as ISpotifyMusic[];
+  musics.push(song);
+  fs.writeFileSync(SONGS_JSON_PATH, JSON.stringify(musics));
 }

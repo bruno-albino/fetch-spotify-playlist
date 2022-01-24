@@ -1,5 +1,6 @@
 import { Page } from "puppeteer";
-import { delay, DOWNLOAD_PATH } from "./utils";
+import { DOWNLOAD_PATH } from "utils/constants";
+import { delay } from "utils/helpers";
 
 const DELAY = 1000;
 const MP3_TAB_FULL_X_PATH = '/html/body/div[1]/div/div/div/div[1]/div/div[1]/div/div[4]/div/div[2]/ul/li[2]/a'
