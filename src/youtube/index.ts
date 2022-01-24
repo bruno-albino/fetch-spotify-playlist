@@ -1,13 +1,12 @@
 import fs from 'fs';
 import readline from 'readline';
 import { google } from 'googleapis';
-import { YOUTUBE_ACCESS_SCOPES, YOUTUBE_TOKEN_DIR, YOUTUBE_TOKEN_PATH } from './config';
+import { YOUTUBE_ACCESS_SCOPES, YOUTUBE_TOKEN_DIR, YOUTUBE_TOKEN_PATH, YOUTUBE_VIDEO_URL } from './config';
 import { OAuth2Client } from 'google-auth-library';
 import { ISpotifyMusic } from 'spotify/interfaces';
-// import promisify from ''
+
 const { OAuth2 } = google.auth;
 
-const YOUTUBE_VIDEO_URL = 'https://www.youtube.com/watch?v=';
 interface YoutubeAPIParams {
   clientSecret: string;
   redirectUri: string;

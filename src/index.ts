@@ -1,12 +1,13 @@
 import puppeteer from 'puppeteer';
-import { getDownloadMp3Link } from './getDownloadMp3Link';
-import { download } from './download';
+import { getDownloadMp3Link } from './utils/getDownloadMp3Link';
+import { download } from './utils/download';
 import { getSongsByPlaylist } from 'spotify/getSongsByPlaylist';
 import { YoutubeAPI } from './youtube';
 import { YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, YOUTUBE_REDIRECT_URI } from 'utils/constants';
 import { hasSongBeenDownloaded, writeSongInJsonFile } from 'utils/helpers';
 
 // 'https://open.spotify.com/playlist/5TA1QRUel3bMLgP5veRIMt'
+
 (async () => {
   const args = process.argv
   if (args.length < 3) {
