@@ -1,12 +1,13 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-extra';
+import adBlocker from 'puppeteer-extra-plugin-adblocker';
 import { getDownloadMp3Link } from './utils/getDownloadMp3Link';
 import { download } from './utils/download';
-import { getSongsByPlaylist } from 'spotify/getSongsByPlaylist';
+import { getSongsByPlaylist } from './spotify/getSongsByPlaylist';
 import { YoutubeAPI } from './youtube';
-import { YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, YOUTUBE_REDIRECT_URI } from 'utils/constants';
-import { hasSongBeenDownloaded, writeSongInJsonFile } from 'utils/helpers';
-import { getSongsByAlbum } from 'spotify/getSongsByAlbum';
-import { ISpotifyMusic } from 'spotify/interfaces';
+import { YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, YOUTUBE_REDIRECT_URI } from './utils/constants';
+import { hasSongBeenDownloaded, writeSongInJsonFile } from './utils/helpers';
+import { getSongsByAlbum } from './spotify/getSongsByAlbum';
+import { ISpotifyMusic } from './spotify/interfaces';
 
 // 'https://open.spotify.com/playlist/5TA1QRUel3bMLgP5veRIMt'
 
@@ -19,6 +20,7 @@ const albumkey = '-album';
     console.log(`Usage: yarn dev ${playlistkey} <playlistId> or ${albumkey} <albumId>`)
     process.exit(1)
   }
+
   const key = args[2]
   if ([playlistkey, albumkey].indexOf(key) === -1) {
     console.log(`Usage: yarn dev ${playlistkey} <playlistId> or ${albumkey} <albumId>`)
@@ -37,6 +39,7 @@ const albumkey = '-album';
     clientSecret: YOUTUBE_CLIENT_SECRET,
     redirectUri: YOUTUBE_REDIRECT_URI
   })
+  puppeteer.use(adBlocker())
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.setViewport({
@@ -58,7 +61,7 @@ const albumkey = '-album';
       url
     });
     console.log(`downloadable URL: ${downloadableLink}`);
-    await download({ url: downloadableLink, fileName: `${i + 1} - ${music.artist} - ${music.title}.mp3` });
+    await download({ url: downloadableLink, fileName: `${music.artist} - ${music.title}.mp3` });
     writeSongInJsonFile(music)
   }
 

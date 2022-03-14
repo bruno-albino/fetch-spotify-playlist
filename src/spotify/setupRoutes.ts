@@ -1,5 +1,5 @@
 import express from 'express'
-import { generateRandomString } from 'utils/helpers';
+import { generateRandomString } from '../utils/helpers';
 import { SPOTIFY_CLIENT_ID, SPOTIFY_REDIRECT_URI } from '../utils/constants';
 import { SPOTIFY_ACCESS_SCOPE, SPOTIFY_ACCOUNT_END_POINT, SPOTIFY_STATE_KEY } from './config';
 

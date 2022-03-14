@@ -3,7 +3,7 @@ import readline from 'readline';
 import { google } from 'googleapis';
 import { YOUTUBE_ACCESS_SCOPES, YOUTUBE_TOKEN_DIR, YOUTUBE_TOKEN_PATH, YOUTUBE_VIDEO_URL } from './config';
 import { OAuth2Client } from 'google-auth-library';
-import { ISpotifyMusic } from 'spotify/interfaces';
+import { ISpotifyMusic } from '../spotify/interfaces';
 
 const { OAuth2 } = google.auth;
 
@@ -42,7 +42,8 @@ export class YoutubeAPI {
     return new Promise((resolve, reject) => {
       rl.question('Enter the code from that page here: ', code => {
         rl.close();
-        this.oauth2Client.getToken(code, (err, token) => {
+        const decodedCode = decodeURIComponent(code)
+        this.oauth2Client.getToken(decodedCode, (err, token) => {
           if (err) {
             console.log('Error while trying to retrieve access token', err);
             reject();
@@ -57,6 +58,9 @@ export class YoutubeAPI {
 
   private async storeToken(token: any) {
     try {
+      if (!token) {
+        throw new Error('Invalid token');
+      }
       fs.mkdirSync(YOUTUBE_TOKEN_DIR);
     } catch (err) {
       if (err.code !== 'EEXIST') {

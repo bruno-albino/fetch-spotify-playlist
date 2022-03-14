@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { ISpotifyMusic } from 'spotify/interfaces';
+import { ISpotifyMusic } from '../spotify/interfaces';
 import { SONGS_JSON_PATH } from './constants';
 
 /**
