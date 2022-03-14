@@ -10,6 +10,7 @@
     "dotenv-safe": "^8.2.0",
     "express": "^4.17.2",
     "googleapis": "^92.0.0",
+    "object-hash": "^3.0.0",
     "open": "^8.4.0",
     "puppeteer": "^13.0.1",
     "puppeteer-extra": "^3.2.3",

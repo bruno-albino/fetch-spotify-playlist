@@ -80,8 +80,8 @@ export class YoutubeAPI {
 
     return new Promise((resolve, reject) => {
       service.search.list({ auth: this.oauth2Client, part: [], q: query }, function(err, response) {
-        if (err) {
-          reject('The API returned an error: ' + err);
+        if (err || typeof response === 'undefined') {
+          return reject(err);
         }
         const result = `${YOUTUBE_VIDEO_URL}${response.data.items[0].id.videoId}`;
         resolve(result);

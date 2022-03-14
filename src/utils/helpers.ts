@@ -1,6 +1,7 @@
 import fs from 'fs'
 import { ISpotifyMusic } from '../spotify/interfaces';
 import { SONGS_JSON_PATH } from './constants';
+import hash from 'object-hash';
 
 /**
  * Delay execution of a function
@@ -25,14 +26,26 @@ export const generateRandomString = (length: number): string => {
 };
  
 export const hasSongBeenDownloaded = (song: ISpotifyMusic): boolean => {
+  const normalizedSong = normalizeSong(song);
+  const hashedSong = hash(normalizedSong);
   const file = fs.readFileSync(SONGS_JSON_PATH, 'utf8');
-  const musics = JSON.parse(file) as ISpotifyMusic[];
-  return musics.some(music => music.title.toLowerCase() === song.title.toLowerCase() && music.artist.toLowerCase() === song.artist.toLowerCase());
+  const hashedMusics = JSON.parse(file) as string[];
+  return hashedMusics.some(hashedMusic => hashedMusic === hashedSong);
 }
 
 export const writeSongInJsonFile = (song: ISpotifyMusic) => {
+  const normalizedSong = normalizeSong(song);
+  const hashedSong = hash(normalizedSong);
+
   const file = fs.readFileSync(SONGS_JSON_PATH, 'utf8');
-  const musics = JSON.parse(file) as ISpotifyMusic[];
-  musics.push(song);
+  const musics = JSON.parse(file) as string[];
+  musics.push(hashedSong);
   fs.writeFileSync(SONGS_JSON_PATH, JSON.stringify(musics));
+}
+
+const normalizeSong = (song: ISpotifyMusic): ISpotifyMusic => {
+  return {
+    artist: song.artist.toLowerCase(),
+    title: song.title.toLowerCase(),
+  };
 }

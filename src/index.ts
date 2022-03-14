@@ -8,8 +8,7 @@ import { YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, YOUTUBE_REDIRECT_URI } from '
 import { hasSongBeenDownloaded, writeSongInJsonFile } from './utils/helpers';
 import { getSongsByAlbum } from './spotify/getSongsByAlbum';
 import { ISpotifyMusic } from './spotify/interfaces';
-
-// 'https://open.spotify.com/playlist/5TA1QRUel3bMLgP5veRIMt'
+import { YOUTUBE_QUOTE_MESSAGE } from './youtube/config';
 
 const playlistkey = '-playlist';
 const albumkey = '-album';
@@ -53,8 +52,19 @@ const albumkey = '-album';
     const music = filteredMusics[i];
     console.log(`fetching ${music.title} (${i + 1}/${filteredMusics.length})`);
 
-    const url = await youtubeApi.getYoutubeHrefLink(music);
-    console.log(`youtube video URL: ${url}`);
+    let url = '';
+    try {
+      url = await youtubeApi.getYoutubeHrefLink(music);
+      console.log(`youtube video URL: ${url}`);
+    } catch (err) {
+      console.log(err.message)
+      if (err.message.includes(YOUTUBE_QUOTE_MESSAGE)) {
+        console.log('youtube quota exceeded, try again later');
+        process.exit(1)
+      }
+      console.log(`Skipping ${music.title}`);
+      continue
+    }
 
     const downloadableLink = await getDownloadMp3Link({
       page,
