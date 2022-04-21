@@ -43,3 +43,9 @@ export interface ISpotifyTokenResponse {
   token_type: string;
 }
 
+export interface ITrackResponse {
+  name: string;
+  artists: {
+    name: string;
+  }[];
+}

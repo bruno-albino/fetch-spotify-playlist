@@ -9,28 +9,28 @@ import { hasSongBeenDownloaded, writeSongInJsonFile } from './utils/helpers';
 import { getSongsByAlbum } from './spotify/getSongsByAlbum';
 import { ISpotifyMusic } from './spotify/interfaces';
 import { YOUTUBE_QUOTE_MESSAGE } from './youtube/config';
-
-const playlistkey = '-playlist';
-const albumkey = '-album';
+import { getSongsByTrack } from './spotify/getSongByTrack';
 
 (async () => {
   const args = process.argv
-  if (args.length < 3) {
-    console.log(`Usage: yarn dev ${playlistkey} <playlistId> or ${albumkey} <albumId>`)
-    process.exit(1)
-  }
+  const value = args[2]
+  const isAlbum = value.includes('album')
+  const isTrack = value.includes('track')
+  const isPlaylist = value.includes('playlist')
+  const isYoutube = value.includes('youtube')
 
-  const key = args[2]
-  if ([playlistkey, albumkey].indexOf(key) === -1) {
-    console.log(`Usage: yarn dev ${playlistkey} <playlistId> or ${albumkey} <albumId>`)
-    process.exit(1)
-  }
-  const value = args[3]
   let musics: ISpotifyMusic[] = [];
-  if (key === playlistkey) {
+  let title = '';
+  let artist = '';
+  if (isPlaylist) {
     musics = await getSongsByPlaylist(value)
-  } else {
+  } else if (isAlbum) {
     musics = await getSongsByAlbum(value)
+  } else if (isTrack) {
+    musics = await getSongsByTrack(value)
+  } else if(isYoutube) {
+    title = args[3];
+    artist = args[4];
   }
 
   const youtubeApi = new YoutubeAPI({
@@ -46,6 +46,20 @@ const albumkey = '-album';
     height: 920
   });
 
+  if (isYoutube) {
+    console.log('Youtube link, generating mp3...')
+    const downloadableLink = await getDownloadMp3Link({
+      page,
+      url: value,
+    });
+    console.log(`downloadable URL: ${downloadableLink}`);
+    await download({ url: downloadableLink, fileName: `${artist} - ${title}.mp3` });
+    writeSongInJsonFile({
+      artist,
+      title,
+    })
+    process.exit(0)
+  }
   const filteredMusics = musics.filter(song => !hasSongBeenDownloaded(song))
 
   for (let i = 0; i < filteredMusics.length; i++) {
